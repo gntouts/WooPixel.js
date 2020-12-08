@@ -2,20 +2,6 @@ function getCurrentUrl() {
     return window.location.href.toString()
 }
 
-
-function getParentBySelector(element, selector) {
-    let el = element;
-    while (el) {
-        let temp = el.parentNode.classList;
-        let flag = temp.contains(selector);
-        if (flag) {
-            return el.parentNode;
-        }
-        el = el.parentNode;
-    }
-}
-
-
 function removeSubstrings(string, substrings) {
     let newString = string;
     for (i = 0; i < substrings.length; i++) {
@@ -23,7 +9,6 @@ function removeSubstrings(string, substrings) {
     }
     return newString.trim();
 }
-
 
 function docReady(fn) {
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -92,23 +77,6 @@ function extractTrackingParametersFromSkroutz() {
     return params;
 }
 
-
-function trackProductViewAndProductCart() {
-    // track viewcontent
-    let id = Array.from(document.querySelector('body').classList).filter(className => className.includes('postid'))[0];
-    id = id.replace('postid-', '');
-
-    let data = document.querySelector(breadcrumbsContainer).innerText.split(breadcrumbCharacter);
-    let category = data[data.length - 2];
-    let prodName = data[data.length - 1];
-
-    let price = parseFloat(document.querySelector(productPagePrice).content);
-
-    let content = { content_name: prodName, content_category: category, content_ids: [id], content_type: 'product', value: price, currency: 'EUR' };
-    fbq('track', 'ViewContent', content);
-
-}
-
 function mainProcedure() {
     let currentUrl = getCurrentUrl()
     if (currentUrl === homepageUrl) {
@@ -159,62 +127,6 @@ function mainProcedure() {
     }
 }
 
-function ajaxAddToCartThumbListener() {
-    jQuery(document).ajaxComplete(function(settings) {
-        let data = settings.data;
-        let url = settings.url.toString();
-        if (url.includes('add_to_cart')) {
-            // data = data.split('&');
-            let quantity = data.split('quantity=')[1];
-            let prodName = data.split('product_sku=')[1].split('&')[0];
-            let id = data.split('product_id=')[1].split('&')[0];
-            let select = ajaxThumbnailPrice.replace('POSTID', id);
-            let price = parseFloat(document.querySelector(select).innerText);
-            let params = {
-                content_name: prodName,
-                content_type: 'product',
-                content_ids: [id],
-                contents: [{ id: id, quantity: quantity, price: price }],
-                quantity: quantity,
-                value: price * quantity,
-                currency: "EUR"
-            };
-            fbq('track', 'AddToCart', params);
-        }
-    });
-}
-
-function ajaxAddToCartProdListener() {
-    jQuery(document).ajaxComplete(function(settings) {
-        let data = settings.data;
-        let url = settings.url.toString();
-        if (url.includes('add_to_cart')) {
-            // data = data.split('&');
-            let quantity = data.split('quantity=')[1];
-            let prodName = data.split('product_sku=')[1].split('&')[0];
-            let id = data.split('product_id=')[1].split('&')[0];
-            let price = parseFloat(document.querySelector(productPagePrice).content);
-            let params = {
-                content_name: prodName,
-                content_type: 'product',
-                content_ids: [id],
-                contents: [{ id: id, quantity: quantity, price: price }],
-                quantity: quantity,
-                value: price * quantity,
-                currency: "EUR"
-            };
-            fbq('track', 'AddToCart', params);
-        }
-    });
-}
-
-function docReady(fn) {
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-        setTimeout(fn, 1);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
-}
 
 ! function(f, b, e, v, n, t, s) {
     if (f.fbq) return;

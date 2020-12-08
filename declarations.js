@@ -11,7 +11,9 @@ var thumbnailAddToCartButtons = 'li.product.type-product a.button.add_to_cart_bu
 var thumbnailAddToCartProductId = 'data-product_id'; //  we getAtribute
 var thumbnailAddToCartDetailsParent = 'insert your selector here'; // parent of Name and Price
 var thumbnailProductName = 'insert your selector here'; // we get inner text
-var thumbnailProductPrice = 'ins .woocommerce-Price-amount';// we parse inner text as float
+var thumbnailProductPrice = 'ins .woocommerce-Price-amount'; // we parse inner text as float
+
+var ajaxThumbnailPrice = 'li.product.post-POSTID .product-title-price-wrap ins' //postid will be replaced
 
 
 // variables for trackProductViewAndProductCart() function
@@ -20,7 +22,7 @@ var breadcrumbCharacter = 'insert your selector here';
 var productPagePrice = 'meta[property="product:sale_price:amount"]' // we parse content as int
 
 var productPageAddToCartButtons = '.single_add_to_cart_button' // we query selector all
-var productPageQantity = '.quantity input[type=number]'// parse value as int
+var productPageQantity = '.quantity input[type=number]' // parse value as int
 
 
 // variables for main procedure
@@ -33,7 +35,7 @@ var productPageUrl = '/product/';
 
 var searchPageUrl = '/?s=';
 var searchTerm = OGPageTitle; //get content
-var searchPageTermRemove = ['insert your selector here'];//insert here substrings of the OG:title tha you wish to be removed from the searchString
+var searchPageTermRemove = ['insert your selector here']; //insert here substrings of the OG:title tha you wish to be removed from the searchString
 
 
 var cartPageUrl = '/cart/';
