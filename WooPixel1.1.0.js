@@ -77,6 +77,19 @@ function extractTrackingParametersFromSkroutz() {
     return params;
 }
 
+function trackProductView() {
+    // track viewcontent
+    let id = Array.from(document.querySelector('body').classList).filter(className => className.includes('postid'))[0];
+    id = id.replace('postid-', '');
+    let data = document.querySelector(breadcrumbsContainer).innerText.split(breadcrumbCharacter);
+    let category = data[data.length - 2];
+    let prodName = data[data.length - 1];
+    let price = parseFloat(document.querySelector(productPagePrice).content);
+    let content = { content_name: prodName, content_category: category, content_ids: [id], content_type: 'product', value: price, currency: 'EUR' };
+    fbq('track', 'ViewContent', content);
+}
+
+
 function mainProcedure() {
     let currentUrl = getCurrentUrl()
     if (currentUrl === homepageUrl) {

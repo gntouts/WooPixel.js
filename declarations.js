@@ -14,6 +14,7 @@ var thumbnailProductName = 'insert your selector here'; // we get inner text
 var thumbnailProductPrice = 'ins .woocommerce-Price-amount'; // we parse inner text as float
 
 var ajaxThumbnailPrice = 'li.product.post-POSTID .product-title-price-wrap ins' //postid will be replaced
+var ajaxProductPrice = '#product-POSTID div.summary form button.single_add_to_cart_button' //postid will be replaced
 
 
 // variables for trackProductViewAndProductCart() function

@@ -168,8 +168,7 @@ function ajaxAddToCartThumbListener() {
             let quantity = data.split('quantity=')[1];
             let prodName = data.split('product_sku=')[1].split('&')[0];
             let id = data.split('product_id=')[1].split('&')[0];
-            let select = ajaxThumbnailPrice.replace('POSTID', id);
-            let price = parseFloat(document.querySelector(select).innerText);
+
             let params = {
                 content_name: prodName,
                 content_type: 'product',
@@ -184,17 +183,26 @@ function ajaxAddToCartThumbListener() {
     });
 }
 
-function ajaxAddToCartProdListener() {
-    jQuery(document).ajaxComplete(function(settings) {
-        let data = settings.data;
-        let url = settings.url.toString();
-        if (url.includes('add_to_cart')) {
-            // data = data.split('&');
-            let quantity = data.split('quantity=')[1];
-            let prodName = data.split('product_sku=')[1].split('&')[0];
-            let id = data.split('product_id=')[1].split('&')[0];
-            let price = parseFloat(document.querySelector(productPagePrice).content);
-            let params = {
+
+function ajaxAddToCartListener() {
+    jQuery(document).ajaxComplete(function(event, request, settings) {
+        var ajaxThumbnailPrice = 'li.product.post-POSTID .product-title-price-wrap ins' //postid will be replaced
+        var ajaxProductPrice = '#product-POSTID div.summary form button.single_add_to_cart_button' //postid will be replaced
+        if (settings.url.toString().includes('add_to_cart')) {
+            let params = {}
+            let quantity = settings.data.split('quantity=')[1];
+            let prodName = settings.data.split('product_sku=')[1].split('&')[0];
+            let id = settings.data.split('product_id=')[1].split('&')[0];
+            let price = '';
+            let f = ajaxProductPrice.replace('POSTID', id);
+            f = document.querySelector(f);
+            if (f) {
+                price = parseInt(document.querySelector(productPagePrice).content);
+            } else {
+                let select = ajaxThumbnailPrice.replace('POSTID', id);
+                price = parseFloat(document.querySelector(select).innerText);
+            }
+            params = {
                 content_name: prodName,
                 content_type: 'product',
                 content_ids: [id],
